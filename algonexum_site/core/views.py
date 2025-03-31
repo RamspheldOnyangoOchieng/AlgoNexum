@@ -1,4 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render ,redirect, get_object_or_404
+from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
+
 
 def home(request):
     return render(request, 'home.html')
@@ -36,3 +42,38 @@ def contact(request):
     return render(request,contact.html)
 
         
+def send_otp(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        user = User.objects.filter(email=email).first()
+        if user:
+            otp = str(random.randint(100000, 999999))
+            request.session['otp'] = otp
+            request.session['email'] = email
+            send_email(
+                'password Reset OTP'
+                , f'Your OTP is {otp}'
+                settings.DEFAULT_FROM_EMAIL,
+                [email],
+                fail_silently=False,
+            )
+            messages.success(request,OTP sent to your email.)
+            return redirect('verify_otp')
+        else:
+            messages.error(request, 'Email not found')
+            return redirect('forgot_password.html')
+        return render(request, 'forgot_password.html')
+    
+def otp(request):
+    if request.method == "POST":
+        otp = request.POST.get('otp')
+         entered_otp = request.POST.get('otp')
+        stored_otp = request.session.get('otp')
+        if otp == entered_otp:
+            return redirect('change_password.html')
+        else:
+            messages.error(request, 'Invalid OTP')
+            return redirect('verify_otp.html')
+        return render(request, 'otp.html')
+    return render(request, 'otp.html')
+    
