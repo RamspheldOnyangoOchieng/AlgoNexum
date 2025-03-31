@@ -32,6 +32,7 @@ def register(request):
         return render(request,register.html,{"success:","user created successfully"})
     return render(request,"register.html")
 
-
+def contact(request):
+    return render(request,contact.html)
 
         
