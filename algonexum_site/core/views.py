@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render ,redirect, get_object_or_404
@@ -46,23 +47,28 @@ def send_otp(request):
     if request.method == "POST":
         email = request.POST.get('email')
         user = User.objects.filter(email=email).first()
+
         if user:
-            otp = str(random.randint(100000, 999999))
+            otp = str(random.randint(100000, 999999))  # Generate OTP
             request.session['otp'] = otp
             request.session['email'] = email
-            send_email(
-                'password Reset OTP'
-                , f'Your OTP is {otp}'
+
+            # Send email
+            send_mail(
+                'Password Reset OTP',
+                f'Your OTP is {otp}',
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )
-            messages.success(request,OTP sent to your email.)
+
+            messages.success(request, 'OTP sent to your email.')
             return redirect('verify_otp')
         else:
             messages.error(request, 'Email not found')
-            return redirect('forgot_password.html')
-        return render(request, 'forgot_password.html')
+            return redirect('forgot_password')
+
+    return render(request, 'forgot_password.html')
     
 def otp(request):
     if request.method == "POST":
