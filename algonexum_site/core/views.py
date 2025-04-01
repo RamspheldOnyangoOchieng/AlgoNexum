@@ -83,3 +83,6 @@ def otp(request):
         return render(request, 'otp.html')
     return render(request, 'otp.html')
     
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
