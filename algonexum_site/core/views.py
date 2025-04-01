@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 
-
+ 
 def home(request):
     return render(request, 'home.html')
 def about(request):
@@ -67,7 +67,7 @@ def send_otp(request):
 def otp(request):
     if request.method == "POST":
         otp = request.POST.get('otp')
-         entered_otp = request.POST.get('otp')
+        entered_otp = request.POST.get('otp')
         stored_otp = request.session.get('otp')
         if otp == entered_otp:
             return redirect('change_password.html')
