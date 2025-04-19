@@ -1,10 +1,10 @@
 
 from os import path
-from .views import home
-from algonexum_site.core import views
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', views.home, name='home'),
     path('contact',views.contact, name ='contact'),
     path('about',views.about,name='about'),
     path('login',views.login, name='login'),
