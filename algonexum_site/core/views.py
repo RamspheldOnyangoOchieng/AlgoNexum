@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login # type: ignore
 from django.shortcuts import render ,redirect, get_object_or_404 # type: ignore
 from django.contrib import messages # type: ignore
 from django.conf import settings # type: ignore
-from django.core.mail import send_mail # type: ignore
+from django.core.mail import send_mail # type: ig
+from django.contrib.auth import authenticate, login as auth_login
 
  
 def home(request):
@@ -13,16 +14,18 @@ def about(request):
     return render(request, 'about.html')
    
 def login(request):
-    if request.method =="POST":
+    if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
-            login(request, user)
+            auth_login(request, user)  # Use alias to avoid conflict
             return redirect('home')
         else:
-            return render(request,login.html,{"error:","invalid credentials"})
-        return render(request,login.html)
+            return render(request, 'login.html', {"error": "Invalid credentials"})
+
+    return render(request, 'login.html')
     
 def register(request):
     if request.method == "POST":
@@ -37,7 +40,7 @@ def register(request):
             return render(request,register.html,{"error:","email already exists"})
         user.save()
         return render(request,register.html,{"success:","user created successfully"})
-    return render(request,"register.html")
+    return render(request,"registration.html")
 
 def contact(request):
     return render(request,contact.html)
