@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-3">{{ course.title }}</h1>
+
+  <p>{{ course.description }}</p>
+
+  {% if course.students.exists %}
+    <h5 class="mt-4">Enrolled Students:</h5>
+    <ul>
+      {% for student in course.students.all %}
+        <li>{{ student.user.username }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No students enrolled yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

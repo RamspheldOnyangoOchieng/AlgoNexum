@@ -7,6 +7,8 @@ from django.conf import settings # type: ignore
 from django.core.mail import send_mail # type: ig
 from django.contrib.auth import authenticate, login as auth_login
 
+from .models import Course
+
  
 def home(request):
     return render(request, 'home.html')
@@ -91,3 +93,6 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 def contact(request):
     return render(request,'contact.html')
+def course_detail(request,slug):    
+    course = get_object_or_404(Course, slug=slug)
+    return render(request, 'course_detail.html', {'course': course})
