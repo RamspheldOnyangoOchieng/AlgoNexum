@@ -1,21 +1,32 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block content %}
 <div class="container mt-5">
-  <h1 class="mb-3">{{ course.title }}</h1>
-
+  <h1>{{ course.title }}</h1>
   <p>{{ course.description }}</p>
 
-  {% if course.students.exists %}
-    <h5 class="mt-4">Enrolled Students:</h5>
-    <ul>
-      {% for student in course.students.all %}
-        <li>{{ student.user.username }}</li>
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <h4>Lessons</h4>
+      <ul class="list-group">
+        {% for lesson in lessons %}
+          <li class="list-group-item">
+            <a href="#lesson-{{ lesson.id }}">{{ lesson.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="col-md-8">
+      {% for lesson in lessons %}
+        <div class="card mb-3" id="lesson-{{ lesson.id }}">
+          <div class="card-body">
+            <h5>{{ lesson.title }}</h5>
+            <p>{{ lesson.content|linebreaks }}</p>
+          </div>
+        </div>
       {% endfor %}
-    </ul>
-  {% else %}
-    <p>No students enrolled yet.</p>
-  {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}

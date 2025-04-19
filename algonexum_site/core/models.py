@@ -27,4 +27,8 @@ class Student(models.Model):
     
 
     
+class Lesson(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=254)
+    content = models.TextField()
     
