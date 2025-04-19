@@ -86,3 +86,5 @@ def otp(request):
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+def contact(request):
+    return render(request,'contact.html')
