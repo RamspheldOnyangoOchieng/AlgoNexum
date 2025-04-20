@@ -11,6 +11,6 @@ urlpatterns = [
     path('register',views.register,name='registeration'),
     
    
-   path('courses/<int:id>', views.course_detail, name='course_detail'),
+   path('course', views.course_detail, name='course_detail'),
 
 ]

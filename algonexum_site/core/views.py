@@ -93,7 +93,10 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 def contact(request):
     return render(request,'contact.html')
-def course_detail(request,id):     
-    course = get_object_or_404(Course, id = id)
+def course_detail(request):     
+    course = get_object_or_404(Course)
     lessons = course.lesson_set.all()
-    return render(request, 'course_detail.html', {'course': course})
+    return render(request, 'course_detail.html', {
+        'course': course,
+        'lesson': lessons
+    })
